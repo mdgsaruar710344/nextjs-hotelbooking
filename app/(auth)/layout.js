@@ -13,12 +13,14 @@ export const metadata = {
 export default async function AuthLayout({ children }) {
   await dbConnect();
   await refreshPage();
-  await auth();
+  
+    const session=await auth();
+      console.log(session);
   return (
     <html lang="en">
       <body
       >
-        <Navbar></Navbar>
+        <Navbar fromAuth={true} ></Navbar>
         {children}
       </body>
     </html>

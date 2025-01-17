@@ -1,16 +1,12 @@
-import { auth } from "@/auth";
-import Image from "next/image";
+import HotelList from "../components/hotellisting/HotelList";
 
-export default async function Home() {
-  const session=await auth();
-  const user=session?.user;
+
+export default  function Home() {
+  // const session=await auth();
+  // const user=session?.user;
   return (
    <div>
-    Home Page
-    {user && (<>User: {user.name},
-    <br></br>
-    Email:
-    {user.email} </>)}
+   <HotelList></HotelList>
    </div>
   );
 }

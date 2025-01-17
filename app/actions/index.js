@@ -53,5 +53,13 @@ export async function handleCreateUser(formData){
 
 }
 export async function refreshPage(){
-  revalidatePath('/'); 
+  revalidatePath('/bookings'); 
 }
+export async function handleHotelSearch(term){
+const foundHotels= await getHotelBySearch(term);
+return foundHotels;
+}
+
+
+
+

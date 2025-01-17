@@ -6,14 +6,10 @@ const LogOut = () => {
   const handleLogOut=async()=>{
 await handleSignOut();
   }
+
   return (
-    <div>
-         
-     
-                <button onClick={handleLogOut} >LogOut</button>
-       
-         
-                
+    <div> 
+       <button onClick={handleLogOut} >LogOut</button>       
     </div>
   );
 };

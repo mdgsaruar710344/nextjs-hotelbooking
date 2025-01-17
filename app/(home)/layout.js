@@ -17,7 +17,7 @@ await refreshPage();
     <html lang="en">
       <body
       >
-        <Navbar></Navbar>
+        <Navbar fromAuth={false}></Navbar>
         {children}
       </body>
     </html>
