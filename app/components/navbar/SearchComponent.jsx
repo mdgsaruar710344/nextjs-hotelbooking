@@ -24,7 +24,7 @@ Currentparams.set('search',term)
   else{
     Currentparams.delete("search");
   }
-  router.push(`?${Currentparams.toString()}`);
+  router.push(`/?${Currentparams.toString()}`);
 }
   return (
     <div className="border-red-500 border-2" >

@@ -34,11 +34,15 @@ export async function getAllHotels(searchTerm) {
  
   try {  
     if (searchTerm) {
-      
+      const hotels=await hotelsModel.find({ city: { $regex: searchTerm, $options: "i" } }).lean();
+      console.log('all hotels in queries',hotels)
+      return hotels;
     }
+     else {
       const hotels=await hotelsModel.find().lean();
-       console.log('all hotels in queries',hotels)
-       return hotels;   
+      console.log('all hotels in queries',hotels)
+      return hotels;
+     }  
      }
       catch (error) {
     console.error(error);

@@ -1,13 +1,20 @@
 import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 export default async function BookingsPage() {
   const session=await auth();
   const user=session?.user;
-  return (
-    <div>
-      Bookings Page!
-      {user && user.email}
-    </div>
-  );
+   if (!session) {
+    redirect('/login')
+  }
+  else {
+    return (
+      <div>
+         Bookings Page!
+         {user && user.email}
+      </div>
+    );
+  }
+
 }
 
