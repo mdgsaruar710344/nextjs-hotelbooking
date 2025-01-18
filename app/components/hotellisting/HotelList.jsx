@@ -3,9 +3,9 @@
 import { getAllHotels } from "@/app/queries";
 import HotelCard from "./HotelCard";
 
-const HotelList = async() => {
+const HotelList = async({searchTerm}) => {
 
-  const hotels= await getAllHotels();
+  const hotels= await getAllHotels(searchTerm);
 
 
   return (

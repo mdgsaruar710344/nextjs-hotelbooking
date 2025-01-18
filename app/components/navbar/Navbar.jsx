@@ -25,10 +25,9 @@ const Navbar = async({fromAuth}) => {
           <Image src="/assets/logo.svg" alt="Hotel Logo" className="h-8 w-auto" height={50} width={50} />
         </Link>
       </div>
-hello 1
+
 <SearchResult></SearchResult>
 
-    hello2
       {/* {Loggeduser ? Loggeduser.name: 'no Loggeduser'}
       {Loggeduser ? Loggeduser.email: 'no email'} */}
       

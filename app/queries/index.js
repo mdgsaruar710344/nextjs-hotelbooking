@@ -30,9 +30,12 @@ export async function getUserByID(userId) {
   }
 }
 
-export async function getAllHotels() {
+export async function getAllHotels(searchTerm) {
  
   try {  
+    if (searchTerm) {
+      
+    }
       const hotels=await hotelsModel.find().lean();
        console.log('all hotels in queries',hotels)
        return hotels;   
