@@ -1,10 +1,12 @@
 
-import { auth } from '@/auth';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import UserState from './UserState';
-import Search from './Search';
+import SearchResult from './SearchComponent';
+
+
 
 
 const Navbar = async({fromAuth}) => {
@@ -14,6 +16,7 @@ const Navbar = async({fromAuth}) => {
  
   return (
     <div>
+   
         <nav
       className="grid grid-cols-2 md:flex justify-between items-center py-3 bg-white border-b mb-6 md:gap-8 px-4 md:px-8 lg:px-20"
     >
@@ -22,8 +25,10 @@ const Navbar = async({fromAuth}) => {
           <Image src="/assets/logo.svg" alt="Hotel Logo" className="h-8 w-auto" height={50} width={50} />
         </Link>
       </div>
+hello 1
+<SearchResult></SearchResult>
 
-    <Search></Search>
+    hello2
       {/* {Loggeduser ? Loggeduser.name: 'no Loggeduser'}
       {Loggeduser ? Loggeduser.email: 'no email'} */}
       
