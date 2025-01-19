@@ -1,6 +1,7 @@
 "use server"
 import { auth, signIn, signOut } from "@/auth";
 import { revalidatePath } from "next/cache";
+import { getUserByEmail } from "../queries";
 
 export async function handleGoogleSignIn()  {
   await signIn("google", {callbackUrl:'http://localhost:3000/'});
@@ -47,6 +48,34 @@ export async function handleCreateUser(formData){
     })
  const createdUser=await response.json();
     return createdUser;
+  } catch (error) {
+    console.error(error)
+  }
+
+}
+export async function handleCreateBookingsAndPayment(formObject){
+  const checkinTimestamp=formObject?.checkin;
+  const checkoutTimestamp=formObject?.checkout;
+  const guestsnumber=formObject?.guestsnumber;
+  const totalPayment=formObject?.totalPayment;
+  const hotelId=formObject?.hotelId;
+  const email=formObject?.email;
+  const user= await getUserByEmail(email);
+  const userId=user?._id;
+  const booking={
+    checkinTimestamp,checkoutTimestamp,guestsnumber,totalPayment,hotelId,userId
+  };
+  console.log('booking data before POST in action',booking);
+  try {
+    const response=await fetch('http://localhost:3000/api/auth/booking',{
+      method:'POST',
+      headers:{
+        'content-type':'application/json'
+      },
+      body: JSON.stringify(booking)
+    })
+ const createdBooking=await response.json();
+    return JSON.stringify(createdBooking);
   } catch (error) {
     console.error(error)
   }
