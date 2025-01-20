@@ -67,3 +67,15 @@ export async function getBookingById(bookingId) {
     console.error(error);
   }
 }
+export async function getAllBookingByUserId(userId) {
+  try {
+    
+    const bookings=await bookingsModel.find({
+      userId:userId
+    }).lean();
+    // console.log(hotel);
+    return bookings;
+  } catch (error) {
+    console.error(error);
+  }
+}
