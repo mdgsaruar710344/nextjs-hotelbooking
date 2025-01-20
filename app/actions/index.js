@@ -92,6 +92,52 @@ export async function handleGetBookingById(bookingId){
   const booking= await getBookingById(bookingId); 
 return booking;
 }
+// export async function handlePdfGeneration(booking){
+//   // const checkin=booking?.checkin;
+//   // const checkout=booking?.checkout;
+
+//   console.log('booking object in handlePdfGeneration',booking)
+//   const guestsnumber=booking?.guestsnumber;
+//   const hotelId=booking?.checkin;
+//   const userId=booking?.userId;
+//   const bookingId=booking?._id;
+//   const checkinDate = new Date(Number(booking?.checkin)).toLocaleDateString();
+// const checkoutDate = new Date(Number(booking?.checkout)).toLocaleDateString();
+//   const {renderToStream}=await import('@react-pdf/renderer');
+//   const {Page,View,Text,Document,StyleSheet}=await import('@react-pdf/renderer');
+  
+//   const styles = StyleSheet.create({
+//     page: { padding: 20 },
+//     section: { margin: 10, padding: 10, border: '1px solid black' },
+//   });
+  
+
+//   const MyPDFDocument = () => (
+//     <Document>
+//       <Page size="A4" style={styles.page}>
+//         <View style={styles.section}>
+//           <Text>Hello, User  !</Text>
+//           <Text>Checkin Time: .</Text>
+//           <Text>Checkout Time: .</Text>
+//           <Text>Hotel Id: .</Text>
+//           <Text>Guests: .</Text>
+//           <Text>Booking Id: .</Text>
+//           <Text>This PDF was generated server-side using Server Actions.</Text>
+//         </View>
+//       </Page>
+//     </Document>
+//   );
+// const pdfStream= await renderToStream(<MyPDFDocument/>)
+
+// console.log('pdf stream',pdfStream);
+
+//   return new Response(pdfStream,{
+//     headers:{
+//       'Content-Type':'application/pdf',
+//        'Content-Disposition': 'attachment; filename="booking.pdf"'
+//     }
+//   })
+// }
 
 
 

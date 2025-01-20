@@ -1,5 +1,6 @@
 import { handleGetBookingById } from "@/app/actions";
 import PdfDownload from "@/app/components/booking/PdfDownload";
+import SuccessfulPaymentComponent from "@/app/components/booking/SuccessfulPaymentComponent";
 import { auth } from "@/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -21,31 +22,15 @@ return (
   </div>
 )
   }
-  else {
-    const booking= await handleGetBookingById(bookingId);
-
+  
+    const bookingdata= await handleGetBookingById(bookingId);
+const bookingStringified= JSON.stringify(bookingdata);
+const booking=JSON.parse(bookingStringified);
+console.log('booking object before passing',booking)
     return (
-      <div>
-        Successful Payment Page.
-        Total Payment: {booking?.totalPayment && booking.totalPayment}
-        <br></br>
-        Checkin: {booking?.checkin && booking.checkin}
-        <br></br>
-
-        Checkout: {booking?.checkout && booking.checkout}
-        <br></br>
-
-        Guests: {booking?.guestsnumber && booking.guestsnumber}
-        <br></br>
-
-       Booking ID: {booking?._id && booking._id}
-     
-     <div>
-      <PdfDownload></PdfDownload>
-     </div>
-      </div>
+      <SuccessfulPaymentComponent booking={booking} ></SuccessfulPaymentComponent>
     );
-  }
+  
 
 }
 
