@@ -1,5 +1,5 @@
 
-import { hotelsModel, usersModel } from "../models";
+import { bookingsModel, hotelsModel, usersModel } from "../models";
 
 
 export async function getAllUsers() {
@@ -54,6 +54,15 @@ export async function getHotelById(hotelID) {
     const hotel=await hotelsModel.findById(hotelID).lean();
     // console.log(hotel);
     return hotel;
+  } catch (error) {
+    console.error(error);
+  }
+}
+export async function getBookingById(bookingId) {
+  try {
+    const booking=await bookingsModel.findById(bookingId).lean();
+    // console.log(hotel);
+    return booking;
   } catch (error) {
     console.error(error);
   }

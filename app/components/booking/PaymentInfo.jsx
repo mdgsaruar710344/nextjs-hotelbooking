@@ -39,9 +39,13 @@ const PaymentInfo = ({hotel,user}) => {
      
       const bookingdata=JSON.parse(booking);
       console.log(bookingdata);
-      if (bookingdata) {
-        setMessage('Redirecting to confirmation Page')
-        router.push(`/payment/successfulPayment?bookingId=${bookingdata?._id}`)
+      const bookingId=bookingdata?.data?._id;
+      console.log('Booking Id',bookingId);
+
+      if (bookingId) {
+      
+       await router.push(`/payment/successfulPayment?bookingId=${bookingId}`);
+       setMessage('Redirecting to confirmation Page');
       }
       else {
         setMessage('Booking Failed!')

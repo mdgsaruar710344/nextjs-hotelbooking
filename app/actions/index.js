@@ -1,7 +1,7 @@
 "use server"
 import { auth, signIn, signOut } from "@/auth";
 import { revalidatePath } from "next/cache";
-import { getUserByEmail } from "../queries";
+import { getBookingById, getUserByEmail } from "../queries";
 
 export async function handleGoogleSignIn()  {
   await signIn("google", {callbackUrl:'http://localhost:3000/'});
@@ -87,6 +87,10 @@ export async function refreshPage(){
 export async function handleHotelSearch(term){
 const foundHotels= await getHotelBySearch(term);
 return foundHotels;
+}
+export async function handleGetBookingById(bookingId){
+  const booking= await getBookingById(bookingId); 
+return booking;
 }
 
 
