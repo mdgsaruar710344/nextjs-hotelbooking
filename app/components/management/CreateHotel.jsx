@@ -33,7 +33,13 @@ const CreateHotel = () => {
   })
 
   const [file, setFile] = useState(null);
-  const [uploadedUrl, setUploadedUrl] = useState(null);
+  const [uploadedUrl, setUploadedUrl] = useState({
+    image1:'',
+    image2:'',
+    image3:'',
+    image4:'',
+    image5:'',
+  });
 
   const handleOnChange = (e) => {
     e.preventDefault();
@@ -55,7 +61,9 @@ const CreateHotel = () => {
     setFile(e.target.files[0]);
   };
 
- const handleUpload = async () => {
+ const handleUpload = async (e) => {
+    e.preventDefault();
+   const buttonName= e.target.name;
     if (!file) return alert('Please select a file first!');
 
 
@@ -70,7 +78,9 @@ const CreateHotel = () => {
 
       if (!response.ok) throw new Error('Upload failed');
       const data = await response.json();
-      setUploadedUrl(data.url);
+      setUploadedUrl((prev)=>({
+        ...prev, [buttonName]:data.url
+      })  );
       console.log('data from cloudinary',data.url);
     } catch (error) {
       console.error(error);
@@ -145,7 +155,7 @@ const CreateHotel = () => {
       <div className="grid grid-cols-4 grid-rows-2 gap-4 mb-8 h-[500px]">
         <div className="col-span-2 row-span-2 relative">
           <Image
-            src={ uploadedUrl ||"https://placehold.co/600x400/png"}
+            src={ uploadedUrl.image1 ||"https://placehold.co/600x400/png"}
             alt="Main Room"
             className="w-full h-full object-cover rounded-lg"
             width={600}
@@ -153,85 +163,89 @@ const CreateHotel = () => {
           />
           
           <input
-         
+           
             type="file"
             accept="image/*"
             placeholder="Upload Image Here"
             onChange={handleFileChange}
             className="w-11/12 p-2 border border-primary rounded-lg mt-2 absolute left-1/2 -translate-x-1/2 bottom-2 bg-white"
           />
-        <button onClick={handleUpload} >Upload All Photos</button>
+        <button  name="image1" onClick={handleUpload} >Upload This Photo</button>
           
         
         </div>
-        {/* <div className="relative">
+        <div className="relative">
           <Image
-            src={imagePreview.image2? imagePreview.image2 : "https://placehold.co/600x400/png"}
+            src={uploadedUrl.image2 || "https://placehold.co/600x400/png"}
             alt="Room 1"
             className="w-full h-full object-cover rounded-lg"
             width={250}
             height={150}
           />
           <input
-             name="image2"
+             
              type="file"
              accept="image/*"
              placeholder="Upload Image Here"
-             onChange={handleImageUpload}
-            className="text-sm w-11/12 p-2 border border-primary rounded-lg mt-2 absolute left-1/2 -translate-x-1/2 bottom-2 bg-white"
+             onChange={handleFileChange}
+             className="text-sm w-11/12 p-2 border border-primary rounded-lg mt-2 absolute left-1/2 -translate-x-1/2 bottom-2 bg-white"
           />
+           <button  name="image2" onClick={handleUpload} >Upload This Photo</button>
         </div>
         <div className="relative">
           <Image
-            src={imagePreview.image3? imagePreview.image3 : "https://placehold.co/600x400/png"}
+            src={uploadedUrl.image3 || "https://placehold.co/600x400/png"}
             alt="Room 2"
             className="w-full h-full object-cover rounded-lg"
             width={250}
             height={150}
           />
           <input
-              name="image3"
+              
               type="file"
               accept="image/*"
               placeholder="Upload Image Here"
-              onChange={handleImageUpload}
+              onChange={handleFileChange}
             className="text-sm w-11/12 p-2 border border-primary rounded-lg mt-2 absolute left-1/2 -translate-x-1/2 bottom-2 bg-white"
           />
+           <button  name="image3" onClick={handleUpload} >Upload This Photo</button>
         </div>
         <div className="relative">
           <Image
-            src={imagePreview.image4? imagePreview.image4 : "https://placehold.co/600x400/png"}
+            src={uploadedUrl.image4 || "https://placehold.co/600x400/png"}
             alt="Room 3"
             className="w-full h-full object-cover rounded-lg"
             width={250}
             height={150}
           />
           <input
-              name="image4"
+              
               type="file"
               accept="image/*"
               placeholder="Upload Image Here"
-              onChange={handleImageUpload}
+              onChange={handleFileChange}
             className="text-sm w-11/12 p-2 border border-primary rounded-lg mt-2 absolute left-1/2 -translate-x-1/2 bottom-2 bg-white"
           />
+           <button  name="image4" onClick={handleUpload} >Upload This Photo</button>
         </div>
         <div className="relative">
           <Image
-            src={imagePreview.image5? imagePreview.image5 : "https://placehold.co/600x400/png"}
+            src={uploadedUrl.image5 || "https://placehold.co/600x400/png"}
             alt="Room 4"
             className="w-full h-full object-cover rounded-lg"
             width={250}
             height={150}
           />
           <input
-            name="image5"
+            
             type="file"
             accept="image/*"
             placeholder="Upload Image Here"
-            onChange={handleImageUpload}
+            onChange={handleFileChange}
             className="text-sm w-11/12 p-2 border border-primary rounded-lg mt-2 absolute left-1/2 -translate-x-1/2 bottom-2 bg-white"
           />
-        </div> */}
+           <button  name="image5" onClick={handleUpload} >Upload This Photo</button>
+        </div>
       </div>
      
       <div className="mb-4">
