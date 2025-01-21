@@ -64,7 +64,7 @@ const CreateHotel = () => {
         </h1>
         </div> }
     
-        <button type="submit"> {editMode.propertyname ? <>Save</> :<>Edit</> } </button>
+        <button name="propertyname" type="submit"> {editMode.propertyname ? <>Save</> :<>Edit</> } </button>
         </form>
         <div className="flex items-center text-gray-600">
           <span className="edit text-gray-600">Property location</span>
