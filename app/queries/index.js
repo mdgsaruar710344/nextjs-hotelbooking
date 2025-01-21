@@ -79,3 +79,15 @@ export async function getAllBookingByUserId(userId) {
     console.error(error);
   }
 }
+
+export async function getAllHotelsByOwnerId(ownerId) {
+  try {
+    const hotels= await hotelsModel.find({
+      ownerId:ownerId
+    }).lean();
+    return hotels;
+  } catch (error) {
+    console.error(error);
+  }
+
+}

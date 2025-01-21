@@ -112,6 +112,10 @@ const hotelsSchema= new Schema({
     type:String,
     required:true
   },
+  ownerId: {
+    type:ObjectId,
+    required:true
+  },
   address1: {
     type:String,
     required:true

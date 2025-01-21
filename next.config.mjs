@@ -8,6 +8,11 @@ const nextConfig = { images: {
     },
     {
       protocol: 'https',
+      hostname: 'placehold.co',
+    
+    },
+    {
+      protocol: 'https',
       hostname: 'a0.muscache.com',
     
     },
