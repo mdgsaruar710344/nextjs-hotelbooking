@@ -11,25 +11,21 @@ const CreateHotel = () => {
   const [editMode, setEditMode] = useState({
     propertyname:false,
     propertylocation:false,
+    pricepernight:false,
+    guestcapacity:false,
+    bedroomnumber:false,
+    bednumber:false,
+    description:false
   })
-  const [imagePreview,setImagePreview]=useState({
-    image1:'',
-    image2:'',
-    image3:'',
-    image4:'',
-    image5:''
-  });
-  const [imageFileLoad,setImageFileLoad]=useState({
-    image1:null,
-    image2:null,
-    image3:null,
-    image4:null,
-    image5:null
-  });
 
   const [formData, setFormData] = useState({
     propertyname: 'Property Name',
-    propertylocation: 'Property Location'
+    propertylocation: 'Property Location',
+    pricepernight:0,
+    guestcapacity:0,
+    bedroomnumber:0,
+    bednumber:0,
+    description:'This is a default description'
   })
 
   const [file, setFile] = useState(null);
@@ -40,6 +36,24 @@ const CreateHotel = () => {
     image4:'',
     image5:'',
   });
+
+  const [checkboxes, setCheckboxes] = useState({
+    checkbox1: false,
+    checkbox2: false,
+    checkbox3: false,
+    checkbox4: false,
+    checkbox5: false,
+    checkbox6: false,
+  });
+
+  // Handle change in checkbox state
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setCheckboxes((prevState) => ({
+      ...prevState,
+      [name]: checked,
+    }));
+  };
 
   const handleOnChange = (e) => {
     e.preventDefault();
@@ -88,9 +102,6 @@ const CreateHotel = () => {
     } 
   };
   
-
-
-
   return (
     <div>
      Hotel Creation section:
@@ -249,6 +260,28 @@ const CreateHotel = () => {
       </div>
      
       <div className="mb-4">
+      <form >
+        {editMode.pricepernight ? <div>
+          <input 
+          name="pricepernight"
+          type="number"
+          min={0}
+          value={formData.pricepernight}
+          onChange={handleOnChange}
+          />
+        </div> : <div>
+        <h1 onClick={()=>{  setEditMode((prev)=>({
+      ...prev, pricepernight: true
+    }))}}
+          className="text-3xl font-bold mb-2 text-zinc-400 edit"
+          id="pricepernight"
+        >
+         {formData.pricepernight}
+        </h1>
+        </div> }
+    
+        <button name="pricepernight" onClick={handleFormDataSave} type="button"> {editMode.pricepernight ? <>Save</> :<>Edit</> } </button>
+        </form>
         <span className="text-xl font-bold edit">Price in USD</span>
         <span className="text-gray-600 ml-1">per night</span>
       </div>
@@ -266,14 +299,80 @@ const CreateHotel = () => {
             <div className="grid grid-cols-1 gap-4 text-gray-600">
               <div className="flex items-center gap-2">
                 <i className="fas fa-person"></i>
+                <form >
+        {editMode.guestcapacity ? <div>
+          <input 
+          name="guestcapacity"
+          type="number"
+          min={0}
+          value={formData.guestcapacity}
+          onChange={handleOnChange}
+          />
+        </div> : <div>
+        <h1 onClick={()=>{  setEditMode((prev)=>({
+      ...prev, guestcapacity: true
+    }))}}
+          className="text-3xl font-bold mb-2 text-zinc-400 edit"
+          id="guestcapacity"
+        >
+         {formData.guestcapacity}
+        </h1>
+        </div> }
+    
+        <button name="guestcapacity" onClick={handleFormDataSave} type="button"> {editMode.guestcapacity ? <>Save</> :<>Edit</> } </button>
+        </form>
                 <span className="edit">How many Guest can Stay?</span>
               </div>
               <div className="flex items-center gap-2">
                 <i className="fas fa-door-open"></i>
+                <form >
+        {editMode.bedroomnumber ? <div>
+          <input 
+          name="bedroomnumber"
+          type="number"
+          min={0}
+          value={formData.bedroomnumber}
+          onChange={handleOnChange}
+          />
+        </div> : <div>
+        <h1 onClick={()=>{  setEditMode((prev)=>({
+      ...prev, bedroomnumber: true
+    }))}}
+          className="text-3xl font-bold mb-2 text-zinc-400 edit"
+          id="bedroomnumber"
+        >
+         {formData.bedroomnumber}
+        </h1>
+        </div> }
+    
+        <button name="bedroomnumber" onClick={handleFormDataSave} type="button"> {editMode.bedroomnumber ? <>Save</> :<>Edit</> } </button>
+        </form>
                 <span className="edit">How many Bedrooms ? </span>
               </div>
               <div className="flex items-center gap-2">
                 <i className="fas fa-bed"></i>
+                <form >
+        {editMode.bednumber ? <div>
+          <input 
+          name="bednumber"
+          type="number"
+          min={0}
+          value={formData.bednumber}
+          onChange={handleOnChange}
+          />
+        </div> : <div>
+        <h1 onClick={()=>{  setEditMode((prev)=>({
+      ...prev, bednumber: true
+    }))}}
+          className="text-3xl font-bold mb-2 text-zinc-400 edit"
+          id="bednumber"
+        >
+         {formData.bednumber}
+        </h1>
+        </div> }
+    
+        <button name="bednumber" onClick={handleFormDataSave} type="button"> {editMode.bednumber ? <>Save</> :<>Edit</> } </button>
+        </form>
                 <span className="edit">How many beds available ?</span>
               </div>
             </div>
@@ -285,12 +384,53 @@ const CreateHotel = () => {
             <p className="text-gray-700 leading-relaxed edit">
               Write a short description about this place
             </p>
+            <form >
+        {editMode.description ? <div>
+          <input 
+          name="description"
+          type="text"
+         
+          value={formData.description}
+          onChange={handleOnChange}
+          />
+        </div> : <div>
+        <h1 onClick={()=>{  setEditMode((prev)=>({
+      ...prev, description: true
+    }))}}
+          className="text-3xl font-bold mb-2 text-zinc-400 edit"
+          id="description"
+        >
+         {formData.description}
+        </h1>
+        </div> }
+    
+        <button name="description" onClick={handleFormDataSave} type="button"> {editMode.description ? <>Save</> :<>Edit</> } </button>
+        </form>
           </div>
 
-        
+            <div>
+              <h3>Select Options:</h3>
+              {Object.keys(checkboxes).map((key) => (
+                <label key={key} style={{ display: "block", margin: "5px 0" }}>
+                  <input
+                    type="checkbox"
+                    name={key}
+                    checked={checkboxes[key]}
+                    onChange={handleCheckboxChange}
+                  />
+                  {key.replace("checkbox", "Checkbox ")}
+                </label>
+              ))}
+              <div style={{ marginTop: "20px" }}>
+                <strong>Checked Values:</strong> <pre>{JSON.stringify(checkboxes, null, 2)}</pre>
+              </div>
+            </div>
+
+
           <div>
             <h3 className="text-xl font-semibold mb-4">What this place offers</h3>
             <div className="grid grid-cols-2 gap-4" id="amenities">
+              <form>
               <div className="flex items-center gap-2 cursor-pointer">
                 <i className="fa-solid fa-umbrella-beach"></i>
                 <span>Beach access</span>
@@ -317,6 +457,7 @@ const CreateHotel = () => {
                 <i className="fa-solid fa-dumbbell"></i>
                 <span>Fitness Center</span>
               </div>
+              </form>
             </div>
           </div>
         </div>
