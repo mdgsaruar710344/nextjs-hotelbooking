@@ -11,6 +11,8 @@ const CreateHotel = () => {
     propertyname:false,
     propertylocation:false,
   })
+  const [imagePreview,setImagePreview]=useState();
+
   const [formData, setFormData] = useState({
     propertyname: 'Property Name',
     propertylocation: 'Property Location'
@@ -27,11 +29,17 @@ const CreateHotel = () => {
 
   const handleFormDataSave = (e) => {
    e.preventDefault();
-   const {name}=e.currentTarget;
+   const {name}=e.target;
     setEditMode((prev)=>({
       ...prev,[name]: !prev[name]
     }));
   }
+
+  const handleImageUpload=(e)=>{
+    const file=e.target.files[0]
+   setImagePreview(URL.createObjectURL(file))
+  }
+
 
   return (
     <div>
@@ -45,7 +53,7 @@ const CreateHotel = () => {
       </button>
     
       <div className="mb-6">
-      <form onSubmit={handleFormDataSave}>
+      <form >
         {editMode.propertyname ? <div>
           <input 
           name="propertyname"
@@ -64,10 +72,32 @@ const CreateHotel = () => {
         </h1>
         </div> }
     
-        <button name="propertyname" type="submit"> {editMode.propertyname ? <>Save</> :<>Edit</> } </button>
+        <button name="propertyname" onClick={handleFormDataSave} type="button"> {editMode.propertyname ? <>Save</> :<>Edit</> } </button>
         </form>
         <div className="flex items-center text-gray-600">
-          <span className="edit text-gray-600">Property location</span>
+          {/* <span className="edit text-gray-600">Property location</span> */}
+
+          <form >
+        {editMode.propertylocation ? <div>
+          <input 
+          name="propertylocation"
+          type="text"
+          value={formData.propertylocation}
+          onChange={handleOnChange}
+          />
+        </div> : <div>
+        <h1 onClick={()=>{  setEditMode((prev)=>({
+      ...prev, propertylocation: true
+    }))}}
+          className="text-3xl font-bold mb-2 text-zinc-400 edit"
+          id="propertylocation"
+        >
+         {formData.propertylocation}
+        </h1>
+        </div> }
+    
+        <button name="propertylocation" onClick={handleFormDataSave} type="button"> {editMode.propertylocation ? <>Save</> :<>Edit</> } </button>
+        </form>
         </div>
       </div>
 
@@ -75,17 +105,22 @@ const CreateHotel = () => {
       <div className="grid grid-cols-4 grid-rows-2 gap-4 mb-8 h-[500px]">
         <div className="col-span-2 row-span-2 relative">
           <Image
-            src="https://placehold.co/600x400/png"
+            src={imagePreview? imagePreview : "https://placehold.co/600x400/png"}
             alt="Main Room"
             className="w-full h-full object-cover rounded-lg"
             width={600}
             height={400}
           />
+          <form>
           <input
-            type="text"
-            placeholder="https://placehold.co/600x400/png"
+            type="file"
+            accept="image/*"
+            placeholder="Upload Image Here"
+            onChange={handleImageUpload}
             className="w-11/12 p-2 border border-primary rounded-lg mt-2 absolute left-1/2 -translate-x-1/2 bottom-2 bg-white"
           />
+          </form>
+        
         </div>
         <div className="relative">
           <Image
