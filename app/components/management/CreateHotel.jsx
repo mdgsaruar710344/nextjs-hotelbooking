@@ -1,5 +1,6 @@
 "use client"
 
+import { handleImageUploadToApi } from "@/app/actions";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -11,12 +12,28 @@ const CreateHotel = () => {
     propertyname:false,
     propertylocation:false,
   })
-  const [imagePreview,setImagePreview]=useState();
+  const [imagePreview,setImagePreview]=useState({
+    image1:'',
+    image2:'',
+    image3:'',
+    image4:'',
+    image5:''
+  });
+  const [imageFileLoad,setImageFileLoad]=useState({
+    image1:null,
+    image2:null,
+    image3:null,
+    image4:null,
+    image5:null
+  });
 
   const [formData, setFormData] = useState({
     propertyname: 'Property Name',
     propertylocation: 'Property Location'
   })
+
+  const [file, setFile] = useState(null);
+  const [uploadedUrl, setUploadedUrl] = useState(null);
 
   const handleOnChange = (e) => {
     e.preventDefault();
@@ -34,11 +51,34 @@ const CreateHotel = () => {
       ...prev,[name]: !prev[name]
     }));
   }
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
 
-  const handleImageUpload=(e)=>{
-    const file=e.target.files[0]
-   setImagePreview(URL.createObjectURL(file))
-  }
+ const handleUpload = async () => {
+    if (!file) return alert('Please select a file first!');
+
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch('/api/cloudinary/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error('Upload failed');
+      const data = await response.json();
+      setUploadedUrl(data.url);
+      console.log('data from cloudinary',data.url);
+    } catch (error) {
+      console.error(error);
+      alert('Error uploading file.');
+    } 
+  };
+  
+
 
 
   return (
@@ -105,81 +145,95 @@ const CreateHotel = () => {
       <div className="grid grid-cols-4 grid-rows-2 gap-4 mb-8 h-[500px]">
         <div className="col-span-2 row-span-2 relative">
           <Image
-            src={imagePreview? imagePreview : "https://placehold.co/600x400/png"}
+            src={"https://placehold.co/600x400/png"}
             alt="Main Room"
             className="w-full h-full object-cover rounded-lg"
             width={600}
             height={400}
           />
-          <form>
+          
           <input
+         
             type="file"
             accept="image/*"
             placeholder="Upload Image Here"
-            onChange={handleImageUpload}
+            onChange={handleFileChange}
             className="w-11/12 p-2 border border-primary rounded-lg mt-2 absolute left-1/2 -translate-x-1/2 bottom-2 bg-white"
           />
-          </form>
+        <button onClick={handleUpload} >Upload All Photos</button>
+          
         
         </div>
-        <div className="relative">
+        {/* <div className="relative">
           <Image
-            src="https://placehold.co/600x400/png"
+            src={imagePreview.image2? imagePreview.image2 : "https://placehold.co/600x400/png"}
             alt="Room 1"
             className="w-full h-full object-cover rounded-lg"
             width={250}
             height={150}
           />
           <input
-            type="text"
-            placeholder="https://placehold.co/600x400/png"
+             name="image2"
+             type="file"
+             accept="image/*"
+             placeholder="Upload Image Here"
+             onChange={handleImageUpload}
             className="text-sm w-11/12 p-2 border border-primary rounded-lg mt-2 absolute left-1/2 -translate-x-1/2 bottom-2 bg-white"
           />
         </div>
         <div className="relative">
           <Image
-            src="https://placehold.co/600x400/png"
+            src={imagePreview.image3? imagePreview.image3 : "https://placehold.co/600x400/png"}
             alt="Room 2"
             className="w-full h-full object-cover rounded-lg"
             width={250}
             height={150}
           />
           <input
-            type="text"
-            placeholder="https://placehold.co/600x400/png"
+              name="image3"
+              type="file"
+              accept="image/*"
+              placeholder="Upload Image Here"
+              onChange={handleImageUpload}
             className="text-sm w-11/12 p-2 border border-primary rounded-lg mt-2 absolute left-1/2 -translate-x-1/2 bottom-2 bg-white"
           />
         </div>
         <div className="relative">
           <Image
-            src="https://placehold.co/600x400/png"
+            src={imagePreview.image4? imagePreview.image4 : "https://placehold.co/600x400/png"}
             alt="Room 3"
             className="w-full h-full object-cover rounded-lg"
             width={250}
             height={150}
           />
           <input
-            type="text"
-            placeholder="https://placehold.co/600x400/png"
+              name="image4"
+              type="file"
+              accept="image/*"
+              placeholder="Upload Image Here"
+              onChange={handleImageUpload}
             className="text-sm w-11/12 p-2 border border-primary rounded-lg mt-2 absolute left-1/2 -translate-x-1/2 bottom-2 bg-white"
           />
         </div>
         <div className="relative">
           <Image
-            src="https://placehold.co/600x400/png"
+            src={imagePreview.image5? imagePreview.image5 : "https://placehold.co/600x400/png"}
             alt="Room 4"
             className="w-full h-full object-cover rounded-lg"
             width={250}
             height={150}
           />
           <input
-            type="text"
-            placeholder="https://placehold.co/600x400/png"
+            name="image5"
+            type="file"
+            accept="image/*"
+            placeholder="Upload Image Here"
+            onChange={handleImageUpload}
             className="text-sm w-11/12 p-2 border border-primary rounded-lg mt-2 absolute left-1/2 -translate-x-1/2 bottom-2 bg-white"
           />
-        </div>
+        </div> */}
       </div>
-
+     
       <div className="mb-4">
         <span className="text-xl font-bold edit">Price in USD</span>
         <span className="text-gray-600 ml-1">per night</span>

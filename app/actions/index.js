@@ -93,7 +93,25 @@ export async function handleGetBookingById(bookingId){
 return booking;
 }
 
+export async function handleImageUploadToApi(formData){
+  for (const pair of formData.entries()) {
+    console.log(pair[0], pair[1]);
+  }
+  try {
+    const response=await fetch('http://localhost:3000/api/imageupload',{
+      method:'POST',
+      body:formData
+     });
+     if (!response.ok) {
+      throw new Error('Image upload failed');
+     }
+     const result= await response.json();
+     console.log('Image upload result',result);
+  } catch (error) {
+    console.error(error)
+  }
 
+}
 
   
 
