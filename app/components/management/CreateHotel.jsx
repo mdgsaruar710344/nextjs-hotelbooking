@@ -46,6 +46,14 @@ const CreateHotel = () => {
     checkbox6: false,
   });
 
+  const amenities={
+    checkbox1: 'Beach Access',
+    checkbox2: 'Private Pool',
+    checkbox3: 'Free WIFI',
+    checkbox4: 'Kitchen',
+    checkbox5: 'Free Parking',
+    checkbox6: 'Fitness Center',
+  }
   // Handle change in checkbox state
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
@@ -413,12 +421,18 @@ const CreateHotel = () => {
               {Object.keys(checkboxes).map((key) => (
                 <label key={key} style={{ display: "block", margin: "5px 0" }}>
                   <input
+                  className="mx-2 "
                     type="checkbox"
                     name={key}
                     checked={checkboxes[key]}
                     onChange={handleCheckboxChange}
+                    style={{ display: "none" }}
                   />
-                  {key.replace("checkbox", "Checkbox ")}
+                  
+                  {amenities[key]}
+                  <span>
+            {checkboxes[key] ? "✔" : ""}
+          </span>
                 </label>
               ))}
               <div style={{ marginTop: "20px" }}>
