@@ -7,9 +7,9 @@ const HotelManageCard = ({hotel}) => {
     <div className='border-red-700 border-2'>
       <HotelCard hotel={hotel} ></HotelCard>
       <br></br>
-      <EditHotel></EditHotel>
+      <EditHotel hotel={hotel} ></EditHotel>
       <br></br>
-      <RemoveHotel></RemoveHotel>
+      <RemoveHotel hotel={hotel} ></RemoveHotel>
     </div>
   );
 };

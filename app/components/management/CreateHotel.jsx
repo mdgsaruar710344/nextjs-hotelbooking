@@ -3,12 +3,14 @@
 
 import { handleCreateHotel } from "@/app/actions";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 
 
 const CreateHotel = () => {
    const [error,setError]=useState(false);
+   const router=useRouter();
 
   const [editMode, setEditMode] = useState({
     propertyname:false,
@@ -133,7 +135,14 @@ const CreateHotel = () => {
         console.log('Final Object being send to server action',finalObject);
 const response=await handleCreateHotel(finalObject);
 console.log('Response in client Side',response);
-
+if (response?.data) {
+  alert('Published Successfully!')
+  router.push('/profile')
+}
+else {
+  setError('Publishing New Hotel failed');
+  alert('Publishing New Hotel failed');
+}
     }
 
 
@@ -141,6 +150,7 @@ console.log('Response in client Side',response);
   return (
     <div>
      Hotel Creation section:
+     {error && error}
      <div className="max-w-7xl mx-auto px-6 py-8 relative">
       <button onClick={handleFinalPublish}
         className="px-4 py-2 bg-primary text-white rounded-lg hover:brightness-90 absolute top-4 right-4"

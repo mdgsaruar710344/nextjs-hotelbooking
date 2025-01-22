@@ -18,7 +18,7 @@ async function ProfilePage() {
     const ownedHotels = await getAllHotelsByOwnerId(ownerId);
     return (
       <div>
-       <Link href={'/create'}>Create Hotel</Link>
+       <Link className='bg-green-800 p-2 m-2 text-white' href={'/create'}>Create Hotel</Link>
         <br></br>
         All hotels managed by me are here:
         <br></br>
