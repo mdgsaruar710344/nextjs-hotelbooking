@@ -1,12 +1,14 @@
 "use client"
 
-import { handleImageUploadToApi } from "@/app/actions";
+
+import { handleCreateHotel } from "@/app/actions";
 import Image from "next/image";
 import { useState } from "react";
 
 
 
 const CreateHotel = () => {
+   const [error,setError]=useState(false);
 
   const [editMode, setEditMode] = useState({
     propertyname:false,
@@ -110,11 +112,37 @@ const CreateHotel = () => {
     } 
   };
   
+
+  const handleFinalPublish = async () => {
+ 
+    const imageUrlArray = Object.values(uploadedUrl);
+    const AmenitiesArray = Object.keys(checkboxes)
+      .filter((key) => checkboxes[key]) // Only include keys with true values
+      .map((key) => amenities[key]);
+   
+    if (imageUrlArray?.length < 5) {
+      setError('Upload all of required 5 photos.');
+
+    }
+    else  {
+    const finalObject={
+        ...formData,
+        amenitiesarray:AmenitiesArray,
+        imageUrl:imageUrlArray,
+        }
+        console.log('Final Object being send to server action',finalObject);
+const response=await handleCreateHotel(finalObject);
+console.log('Response in client Side',response);
+
+    }
+
+
+  }
   return (
     <div>
      Hotel Creation section:
      <div className="max-w-7xl mx-auto px-6 py-8 relative">
-      <button
+      <button onClick={handleFinalPublish}
         className="px-4 py-2 bg-primary text-white rounded-lg hover:brightness-90 absolute top-4 right-4"
       >
         <i className="fas fa-save mr-2"></i>
@@ -440,43 +468,8 @@ const CreateHotel = () => {
               </div>
             </div>
 
-
-          <div>
-            <h3 className="text-xl font-semibold mb-4">What this place offers</h3>
-            <div className="grid grid-cols-2 gap-4" id="amenities">
-              <form>
-              <div className="flex items-center gap-2 cursor-pointer">
-                <i className="fa-solid fa-umbrella-beach"></i>
-                <span>Beach access</span>
-              </div>
-              <div className="flex items-center gap-2 cursor-pointer">
-                <i className="fa-solid fa-person-swimming"></i>
-                <span>Private pool</span>
-              </div>
-              <div className="flex items-center gap-2 cursor-pointer">
-                <i className="fa-solid fa-wifi"></i>
-                <span>Free Wi-Fi</span>
-              </div>
-              <div className="flex items-center gap-2 cursor-pointer">
-                <i className="fa-solid fa-sink"></i>
-                <span>Kitchen</span>
-              </div>
-
-              <div className="flex items-center gap-2 cursor-pointer">
-                <i className="fa-solid fa-square-parking"></i>
-                <span>Free Parking</span>
-              </div>
-
-              <div className="flex items-center gap-2 cursor-pointer">
-                <i className="fa-solid fa-dumbbell"></i>
-                <span>Fitness Center</span>
-              </div>
-              </form>
-            </div>
-          </div>
         </div>
-
-       
+      
       </div>
     </div>
     </div>
