@@ -58,6 +58,15 @@ export async function getHotelById(hotelID) {
     console.error(error);
   }
 }
+export async function deleteHotelById(hotelID) {
+  try {
+    const hotel=await hotelsModel.findByIdAndDelete(hotelID).lean();
+    // console.log(hotel);
+    return hotel;
+  } catch (error) {
+    console.error(error);
+  }
+}
 export async function getBookingById(bookingId) {
   try {
     const booking=await bookingsModel.findById(bookingId).lean();

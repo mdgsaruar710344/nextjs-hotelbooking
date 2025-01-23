@@ -15,10 +15,12 @@ export async function POST(request) {
     // ownerId: userId,
     thumbNailUrl: thumbNail,
   }
-  const { propertyname, propertylocation, pricepernight, guestcapacity, bedroomnumber, bednumber, description, amenitiesarray, imageUrl, location, ownerId, thumbNailUrl } = finalModifiedObject || {};
+  const { propertyname, propertylocation, pricepernight, guestcapacity, bedroomnumber, bednumber, description, amenitiesarray, imageUrl, location, ownerId, thumbNailUrl,hotelId } = finalModifiedObject || {};
   console.log('FinalModifiedObject in route before sending to Database', finalModifiedObject);
   try {
-    const createdHotel = await hotelsModel.create({
+    const createdHotel = await hotelsModel.findOneAndUpdate({
+      _id:hotelId
+    },{
       name: propertyname,
       address1: propertylocation,
       airportCode: propertylocation,
@@ -40,16 +42,18 @@ export async function POST(request) {
       guestcapacity: guestcapacity,
       bedroomnumber: bedroomnumber,
       bednumber: bednumber,
+    },{
+      new:true,
     });
     return NextResponse.json({
       data: createdHotel,
-      message: 'Successfully created Hotel in Databse'
+      message: 'Successfully updated Hotel in Databse'
     },
       { status: 201 })
   } catch (error) {
     console.error(error);
     return NextResponse.json({
-      message: 'Hotel Creation failed'
+      message: 'Hotel updation failed'
     }, {
       status: 500,
     })

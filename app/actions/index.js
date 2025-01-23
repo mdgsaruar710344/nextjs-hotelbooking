@@ -1,7 +1,7 @@
 "use server"
 import { auth, signIn, signOut } from "@/auth";
 import { revalidatePath } from "next/cache";
-import { getBookingById, getUserByEmail } from "../queries";
+import { deleteHotelById, getBookingById, getUserByEmail } from "../queries";
 
 export async function handleGoogleSignIn()  {
   await signIn("google", {callbackUrl:'http://localhost:3000/'});
@@ -93,7 +93,7 @@ export async function handleGetBookingById(bookingId){
 return booking;
 }
 
-export async function handleCreateHotel(finalObject){
+export async function handleCreateHotel(finalObject,edit,hotelId){
   const session = await auth();
   const email = session?.user?.email;
   console.log('email of session user',email);
@@ -103,19 +103,39 @@ export async function handleCreateHotel(finalObject){
   console.log(userId);
   const finalWithUserId={
     ...finalObject,
-    ownerId:userId
+    ownerId:userId,
+    hotelId:hotelId
   };
   console.log('final Object before sending to API',finalWithUserId);
-  const response= await fetch('http:localhost:3000/api/createhotel',{
-    method:'POST',
-    headers:{
-      "content-type":'application/json'
-    },
-    body: JSON.stringify(finalWithUserId),
-  })
-  const result= await response.json();
-  console.log('Result from response in action',result);
-  return result;
+  if (!edit) {
+    const response= await fetch('http:localhost:3000/api/createhotel',{
+      method:'POST',
+      headers:{
+        "content-type":'application/json'
+      },
+      body: JSON.stringify(finalWithUserId),
+    })
+    const result= await response.json();
+    console.log('Result from response in action',result);
+    return result;
+  } else {
+    const response= await fetch('http:localhost:3000/api/edithotel',{
+      method:'POST',
+      headers:{
+        "content-type":'application/json'
+      },
+      body: JSON.stringify(finalWithUserId),
+    })
+    const result= await response.json();
+    console.log('Result from response in action',result);
+    return result;
+  }
+
+}
+export async function handleDeleteHotel(hotelId){
+const response=await deleteHotelById(hotelId);
+revalidatePath("/profile");
+return response;
 }
 
   

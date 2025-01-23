@@ -8,7 +8,8 @@ import { useState } from "react";
 
 
 
-const CreateHotel = () => {
+const CreateHotel = ({hotel,edit}) => {
+const hotelId=hotel?._id;
    const [error,setError]=useState(false);
    const router=useRouter();
 
@@ -23,22 +24,22 @@ const CreateHotel = () => {
   })
 
   const [formData, setFormData] = useState({
-    propertyname: 'Property Name',
-    propertylocation: 'Property Location',
-    pricepernight:0,
-    guestcapacity:0,
-    bedroomnumber:0,
-    bednumber:0,
-    description:'This is a default description'
+    propertyname: hotel?.name || 'Property Name',
+    propertylocation: hotel?.city ||'Property Location',
+    pricepernight: hotel?.highRate ||0,
+    guestcapacity:hotel?.guestcapacity||0,
+    bedroomnumber:hotel?.bedroomnumber||0,
+    bednumber:hotel?.bednumber||0,
+    description:hotel?.shortDescription||'This is a default description'
   })
 
   const [file, setFile] = useState(null);
   const [uploadedUrl, setUploadedUrl] = useState({
-    image1:'',
-    image2:'',
-    image3:'',
-    image4:'',
-    image5:'',
+    image1:hotel?.gallery[0]||'',
+    image2:hotel?.gallery[1]||'',
+    image3:hotel?.gallery[2]||'',
+    image4:hotel?.gallery[3]||'',
+    image5:hotel?.gallery[4]||'',
   });
 
   const [checkboxes, setCheckboxes] = useState({
@@ -133,7 +134,7 @@ const CreateHotel = () => {
         imageUrl:imageUrlArray,
         }
         console.log('Final Object being send to server action',finalObject);
-const response=await handleCreateHotel(finalObject);
+const response=await handleCreateHotel(finalObject,edit,hotelId);
 console.log('Response in client Side',response);
 if (response?.data) {
   alert('Published Successfully!')
