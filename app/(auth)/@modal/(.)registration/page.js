@@ -4,7 +4,7 @@ import Modal from "@/app/components/modal/Modal";
 
 function RegistrationPage() {
   return (
-    <div>
+    <div className="justify-center items-center">
       <Modal>
         <RegistrationComponent/>
       </Modal>

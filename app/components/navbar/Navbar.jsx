@@ -5,12 +5,25 @@ import Link from 'next/link';
 import React from 'react';
 import UserState from './UserState';
 import SearchResult from './SearchComponent';
+import { auth } from '@/auth';
+import LogOut from './LogOut';
+
 
 
 
 
 const Navbar = async({fromAuth}) => {
-
+  const session=await auth();
+  const user=session?.user;
+const barMenuNotLogged=  <>
+                  <li><Link href={'/login'}>Log In</Link> </li>
+                  <li><Link href={'/registration'}>Sign Up</Link></li>
+                </> 
+const barMenuLogged=  <>
+                  <li><Link href={'/bookings'}>Bookings</Link> </li>
+                  <li><Link href={'/profile'}>Profile</Link></li>
+                  <li> <LogOut></LogOut> </li>
+                </> 
   //  const session=await auth();
   //   const Loggeduser=session?.user;
  
@@ -33,54 +46,15 @@ const Navbar = async({fromAuth}) => {
       
       {fromAuth && <UserState ></UserState> }
      
-
-      <div className="flex items-center space-x-4 relative justify-end">
-        <button>
-          <i className="fas fa-language text-zinc-700 text-xl"></i>
-        </button>
-        <button
-          className="bg-white border border-zinc-300 text-zinc-800 px-4 py-2 rounded-full hover:shadow-md flex gap-3 items-center justify-center"
-        >
-          <i className="fas fa-bars"></i>
-          <span
-            className="bg-zinc-600 w-6 h-6 rounded-full flex items-center justify-center text-xs text-white"
-          >
-            <i className="fas fa-user text-white"></i>
-          </span>
-        </button>
-
-    
-        <div
-          className="max-w-48 w-48 bg-white shadow-sm border rounded-md absolute right-0 top-full max-h-fit mt-2 z-50 hidden lg:block"
-        >
-          <ul className="">
-            <Link href={'/login'} className="w-full"> 
-              <li
-                className="px-3 py-2 text-sm text-zinc-700 transition-all hover:bg-zinc-50 hover:text-zinc-800 hover:pl-4"
-              >
-                Login
-              </li>
-            </Link>
-
-            <Link href={'/registration'} className="w-full"> 
-              <li
-                className="px-3 py-2 text-sm text-zinc-700 transition-all hover:bg-zinc-50 hover:text-zinc-800 hover:pl-4"
-              >
-                Signup
-              </li>
-            </Link>
-
-            <Link  href={'/help'} className="w-full">
-              <li
-                className="px-3 py-2 text-sm text-zinc-700 transition-all hover:bg-zinc-50 hover:text-zinc-800 hover:pl-4"
-              >
-                Help
-              </li>
-            </Link>
+        <details className="dropdown">
+          <summary className="btn m-1">Menu</summary>
+          <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+         {user ? barMenuLogged : barMenuNotLogged}
           </ul>
-        </div>
-      </div>
+        </details>
+     
     </nav>
+    {/* <NavbarMenu></NavbarMenu> */}
     </div>
   );
 };

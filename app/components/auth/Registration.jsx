@@ -16,7 +16,7 @@ router.push('/login');
 }
   }
   return (
-    <div>
+    <div className='w-[500px]'>
       <div className="justify-center">     
       <form onSubmit={handleRegistrationSubmit} className="space-y-4">
       <input

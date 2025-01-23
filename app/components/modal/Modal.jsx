@@ -1,53 +1,56 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
-import { useCallback, useRef, useEffect } from "react"
+import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 export default function Modal({ children }) {
-  const overlay = useRef(null)
-  const wrapper = useRef(null)
-  const router = useRouter()
+  const overlayRef = useRef(null);
+  const wrapperRef = useRef(null);
+  const router = useRouter();
 
-  const onDismiss = useCallback(() => {
-    router.back()
-  }, [router])
+  // Function to handle dismissing the modal
+  const onDismiss = () => {
+    router.back();
+  };
 
-  const onClick = useCallback(
-    e => {
-      if (e.target === overlay.current || e.target === wrapper.current) {
-        if (onDismiss) onDismiss()
-      }
-    },
-    [onDismiss, overlay, wrapper]
-  )
+  // Handle clicks outside of the modal
+  const handleClickOutside = (e) => {
+    if (e.target === overlayRef.current || e.target === wrapperRef.current) {
+      onDismiss();
+    }
+  };
 
-  const onKeyDown = useCallback(
-    e => {
-      if (e.key === "Escape") onDismiss()
-    },
-    [onDismiss]
-  )
+  // Handle pressing the Escape key
+  const handleKeyDown = (e) => {
+    if (e.key === "Escape") {
+      onDismiss();
+    }
+  };
 
   useEffect(() => {
-    document.addEventListener("keydown", onKeyDown)
-    return () => document.removeEventListener("keydown", onKeyDown)
-  }, [onKeyDown])
+    // Add event listener for Escape key
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <div
-      ref={overlay}
+      ref={overlayRef}
       className="fixed inset-0 z-10 bg-black/50"
-      onClick={onClick}
+      onClick={handleClickOutside}
     >
       <div
-        ref={wrapper}
+        ref={wrapperRef}
         className="absolute left-1/2 top-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-6"
-      >
+      > from Modal
         {children}
       </div>
     </div>
-  )
+  );
 }
+
 
 
 // const Modal = ({children}) => {
